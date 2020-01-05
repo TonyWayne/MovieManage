@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
+<mapper namespace="com.movie.dao.UserDao">
+	<insert id="insert" parameterType="UserTable" >
+		<selectKey keyProperty="user_id" resultType="Integer" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into user_table values(null,#{user_name},#{user_pwd},#{user_email},#{user_phone},#{user_role},#{user_cinema_id})
+	</insert>
+	<select id="findByName" parameterType="String" resultType="userTable">
+		select * from user_table where user_name=#{user_name}
+	</select>
+	<select id="findById" parameterType="Integer" resultType="userTable">
+		select * from user_table where user_id=#{user_id}
+	</select>
+	<select id="findAllUser" parameterType="userTable" resultType="userTable">
+		select * from user_table where user_role="用户"
+	</select>
+</mapper>

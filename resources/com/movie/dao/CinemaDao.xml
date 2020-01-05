@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
+<mapper namespace="com.movie.dao.CinemaDao">
+	<insert id="insert" parameterType="cinemaTable" >
+		<selectKey keyProperty="cinema_id" resultType="Integer" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into cinema_table values(
+		null,#{cinema_name},#{cinema_address})
+	</insert>
+	<select id="findByName" parameterType="String" resultType="cinemaTable">
+		select * from cinema_table where cinema_name=#{cinema_name}
+	</select>
+	<select id="findById" parameterType="Integer" resultType="cinemaTable">
+		select * from cinema_table where cinema_id=#{cinema_id}
+	</select>
+
+	<select id="findAllCinema" resultType="cinemaTable">
+		select * from cinema_table
+	</select>
+	<update id="update" parameterType="cinemaTable" >
+		update cinema_table set
+		cinema_name = #{cinema_name},
+		cinema_address = #{cinema_address}
+		where cinema_id=#{cinema_id}
+	</update>
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
+<mapper namespace="com.movie.dao.MovieDao">
+	<insert id="insert" parameterType="movieTable" >
+		<selectKey keyProperty="movie_id" resultType="Integer" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into movie_table values(
+		null,#{movie_actor},#{movie_name_cn},
+		#{movie_country},#{movie_detail},#{movie_director},
+		#{movie_name_en},#{movie_state},#{movie_type},#{movie_boxOffice}
+		,#{movie_score},#{movie_duration},#{movie_picture}
+		,#{movie_time_create},#{movie_time_released},#{movie_time_stop})
+	</insert>
+	<select id="findByName" parameterType="String" resultType="MovieTable">
+		select * from movie_table where movie_name_cn=#{movie_name}
+	</select>
+	<select id="findById" parameterType="Integer" resultType="MovieTable">
+		select * from movie_table where movie_id=#{movie_id}
+	</select>
+	<select id="findAllMovieHot" resultType="MovieTable">
+		select * from movie_table where movie_state="热播"
+	</select>
+	<select id="findAllMovieStop" resultType="MovieTable">
+		select * from movie_table where movie_state="下架"
+	</select>
+	<select id="findAllMovieComming" resultType="MovieTable">
+		select * from movie_table where movie_state="未上映"
+	</select>
+</mapper>

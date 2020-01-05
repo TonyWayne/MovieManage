@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace：命名空间，用于隔离sql，还有一个很重要的作用，后面会讲 -->
+<mapper namespace="com.movie.dao.ScheduleDao">
+	<insert id="insert" parameterType="scheduleTable" >
+		<selectKey keyProperty="schedule_id" resultType="Integer" order="AFTER">
+			select LAST_INSERT_ID()
+		</selectKey>
+		insert into schedule_table values(
+		null,#{schedule_hall_id},#{schedule_movie_id},#{c},#{schedule_price}
+		,#{schedule_remain}
+		,#{schedule_state}
+		,#{schedule_time})
+	</insert>
+<!--	<update id="update" parameterType="scheduleTable" >-->
+<!--		update schedule_Table set schedule_name=#{schedule_name} schedule_remain=#{schedule_remain} where schedule_id=#{schedule_id}-->
+<!--	</update>-->
+	<select id="findById" parameterType="Integer" resultType="scheduleTable">
+		select * from schedule_table where schedule_id=#{schedule_id}
+	</select>
+
+	<select id="findAllByCinema" resultType="scheduleTable">
+		select * from schedule_table where schedule_cinema_id = #{cinema_id} and  schedule_time>now()
+
+	</select>
+
+	<select id="findAllByCinemaAndDay" resultType="scheduleTable">
+		select * from schedule_table where schedule_cinema_id = #{cinema_id} and  now() schedule_time
+
+	</select>
+
+	<select id="findAllByHall" resultType="scheduleTable" parameterType="Integer">
+		select * from schedule_table where schedule_hall_id=#{hall_id} and  #{nowdate,jdbcType=TIMESTAMP}>schedule_time
+	</select>
+</mapper>
